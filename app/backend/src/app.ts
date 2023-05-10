@@ -1,15 +1,17 @@
 import * as express from 'express';
+import teamsRouter from './routers/TeamsRouter';
 
 class App {
   public app: express.Express;
 
-  constructor() {
+  constructor(private router = teamsRouter) {
     this.app = express();
 
     this.config();
 
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
+    this.app.use('/teams', this.router);
   }
 
   private config():void {
