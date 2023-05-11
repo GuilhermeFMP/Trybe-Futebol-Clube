@@ -7,7 +7,7 @@ class LoginService {
   Promise<string | { status: number, message: string }> {
     const user = await UserModel.findOne({ where: { email } });
     if (!user || !(LoginService.compareHash(password, user.password))) {
-      return { status: 401, message: 'Incorrect email or password' };
+      return { status: 401, message: 'Invalid email or password' };
     }
     const token = generateToken({ email, password });
     return token;
