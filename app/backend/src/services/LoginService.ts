@@ -1,5 +1,5 @@
 import { compareSync, hashSync } from 'bcryptjs';
-import generateToken from '../utils/token';
+import { generateToken } from '../utils/token';
 import UserModel from '../database/models/Users';
 
 class LoginService {
@@ -11,6 +11,14 @@ class LoginService {
     }
     const token = generateToken({ email, password });
     return token;
+  }
+
+  public static async role(email: string): Promise<string | { message: string }> {
+    const user = await UserModel.findOne({ where: { email } });
+    if (user) {
+      return user.role;
+    }
+    return { message: 'user not found' };
   }
 
   private static hashPassword(password: string) {
