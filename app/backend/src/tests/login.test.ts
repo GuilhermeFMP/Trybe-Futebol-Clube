@@ -5,7 +5,7 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 import UserModel from '../database/models/Users';
 import { IUser } from '../interfaces/IUser';
-import { generateToken } from '../utils/token';
+import * as jwt from '../utils/token';
 import { Response } from 'superagent';
 
 chai.use(chaiHttp);
@@ -91,6 +91,47 @@ describe('Login Router', () => {
 
       expect(response.status).to.be.equal(401);
       expect(response.body.token).not.to.be.empty;
+    });
+  });
+
+  describe('GET /login/role', () => {
+    it('Deve retornar o status 401 e a mensagem sem um token', async () => {
+      const response = await chai.request(app).get('/login/role');
+
+      expect(response.status).to.be.equal(401);
+      expect(response.body).to.be.deep.equal({
+        message: 'Token not found',
+      });
+    });
+
+    it('Deve retornar o status 401 e a mensagem com token invalido', async () => {
+      const response = await chai.request(app).get('./login/role').set('Authorization', 'token-invalid');
+
+      expect(response.status).to.be.equal(401);
+      expect(response.body).to.be.deep.equal({
+        message: 'Token must be a valid token',
+      });
+    });
+
+    it('Deve retornar o status 200 e a mensagem com token valido', async () => {
+      sinon.stub(jwt, 'verifyToken').returns({
+        email: 'kuro@kuro.com',
+        password: 'kuro123',
+      });
+      sinon.stub(UserModel, 'findOne').resolves({
+        id: 1,
+        username: 'kuro',
+        role: 'admin',
+        email: 'kuro@kuro.com',
+        password: 'kuro123',
+      } as UserModel);
+
+      const response = await chai.request(app).get('./login/role').set('Authorization', 'token-valid');
+
+      expect(response.status).to.be.equal(200);
+      expect(response.body).to.be.deep.equal({
+        role: 'admin',
+      });
     });
   });
 });
