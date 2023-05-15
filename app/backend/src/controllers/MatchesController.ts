@@ -25,6 +25,11 @@ class MatchesController {
     const patch = await MatchesService.patchMatch(+id, homeTeamGoals, awayTeamGoals);
     return res.status(statusCode.oK).json(patch);
   }
+
+  public static async create(req: Request, res: Response): Promise<void | Response> {
+    const newMatch = await MatchesService.create(req.body);
+    return res.status(statusCode.created).json(newMatch);
+  }
 }
 
 export default MatchesController;

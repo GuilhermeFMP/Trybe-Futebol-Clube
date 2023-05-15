@@ -1,5 +1,6 @@
 import Teams from '../database/models/Teams';
 import Matches from '../database/models/Match';
+import IMatchAtributtes from '../interfaces/IMatchAtributtes';
 
 class MatchesService {
   public static async getMatches() {
@@ -53,6 +54,14 @@ class MatchesService {
       where: { id },
     });
     return { homeTeamGoals, awayTeamGoals };
+  }
+
+  public static async create(match: IMatchAtributtes) {
+    const newMatch = await Matches.create({
+      ...match,
+      inProgress: true,
+    });
+    return newMatch;
   }
 }
 
