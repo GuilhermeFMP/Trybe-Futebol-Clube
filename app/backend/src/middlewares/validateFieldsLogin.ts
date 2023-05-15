@@ -7,7 +7,7 @@ async function validateFieldsLogin(req: Request, res: Response, next: NextFuncti
   if (!type) {
     return res.status(statusCode.unauthorized).json({ message: 'Invalid email or password' });
   }
-  const passwordLength = password.length < 6;
+  const passwordLength = password.length < 7;
   const regex = /^\S+@\S+\.\S+$/;
   if (passwordLength || !regex.test(email)) {
     return res.status(statusCode.unauthorized).json({ message: 'Invalid email or password' });
