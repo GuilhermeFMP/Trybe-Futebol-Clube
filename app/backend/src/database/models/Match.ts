@@ -44,7 +44,7 @@ Matches.init({
   },
   inProgress: {
     allowNull: false,
-    type: DataTypes.INTEGER,
+    type: DataTypes.BOOLEAN,
   },
 }, {
   sequelize: db,
@@ -53,7 +53,10 @@ Matches.init({
   timestamps: false,
 });
 
-Teams.belongsTo(Matches, { foreignKey: 'homeTeamId', as: 'idTeam' });
-Teams.belongsTo(Matches, { foreignKey: 'awayTeamId', as: 'idTeam' });
+Matches.belongsTo(Teams, { foreignKey: 'homeTeamId', as: 'homeTeam' });
+Matches.belongsTo(Teams, { foreignKey: 'awayTeamId', as: 'awayTeam' });
+
+Teams.hasMany(Matches, { foreignKey: 'homeTeamId', as: 'homeMatche' });
+Teams.hasMany(Matches, { foreignKey: 'awayTeamId', as: 'awayMatche' });
 
 export default Matches;
