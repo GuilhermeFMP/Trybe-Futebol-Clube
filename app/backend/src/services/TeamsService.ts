@@ -7,10 +7,10 @@ class TeamsService {
     return allTeams;
   }
 
-  public static async getById(id: number): Promise<ITeam> {
+  public static async getById(id: number): Promise<ITeam | string> {
     const findTeam = await Teams.findOne({ where: { id } });
     if (!findTeam) {
-      throw new Error('Not Found');
+      return 'Not Found';
     }
     return findTeam;
   }

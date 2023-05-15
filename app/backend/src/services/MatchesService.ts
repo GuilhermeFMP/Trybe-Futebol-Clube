@@ -1,6 +1,7 @@
 import Teams from '../database/models/Teams';
 import Matches from '../database/models/Match';
 import IMatchAtributtes from '../interfaces/IMatchAtributtes';
+import TeamsService from './TeamsService';
 
 class MatchesService {
   public static async getMatches() {
@@ -57,11 +58,25 @@ class MatchesService {
   }
 
   public static async create(match: IMatchAtributtes) {
+    const validate = await this.idExist(match.homeTeamId, match.awayTeamId);
+    if (validate) {
+      return true;
+    }
     const newMatch = await Matches.create({
       ...match,
       inProgress: true,
     });
     return newMatch;
+  }
+
+  private static async idExist(homeTeamId: number, awayTeamId: number) {
+    const home = await TeamsService.getById(homeTeamId);
+    const away = await TeamsService.getById(awayTeamId);
+
+    if (typeof home === 'string' || typeof away === 'string') {
+      return true;
+    }
+    return false;
   }
 }
 

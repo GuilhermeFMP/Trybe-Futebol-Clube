@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import MatchesController from '../controllers/MatchesController';
 import validateToken from '../middlewares/validateToken';
+import validateTeamLogic from '../middlewares/validateTeamLogic';
 
 const matchesRouter = Router();
 
@@ -12,6 +13,7 @@ matchesRouter.get(
 matchesRouter.post(
   '/',
   validateToken,
+  validateTeamLogic,
   (req, res) => MatchesController.create(req, res),
 );
 

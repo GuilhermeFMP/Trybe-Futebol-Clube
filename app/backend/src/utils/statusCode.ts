@@ -5,6 +5,7 @@ const statusCode = {
   badRequest: 400,
   unauthorized: 401,
   noContent: 204,
+  unprocessable: 422,
 };
 
 export default statusCode;

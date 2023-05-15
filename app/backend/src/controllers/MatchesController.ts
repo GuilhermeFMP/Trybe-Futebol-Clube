@@ -28,6 +28,11 @@ class MatchesController {
 
   public static async create(req: Request, res: Response): Promise<void | Response> {
     const newMatch = await MatchesService.create(req.body);
+    if (newMatch === true) {
+      return res.status(statusCode.notFound).json({
+        message: 'There is no team with such id!',
+      });
+    }
     return res.status(statusCode.created).json(newMatch);
   }
 }
