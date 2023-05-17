@@ -5,7 +5,7 @@ const leaderboardRouter = Router();
 
 leaderboardRouter.get(
   '/home',
-  (req, res) => LeaderboardController.getAll(req, res),
+  (req, res) => LeaderboardController.getAllSort(req, res),
 );
 
 export default leaderboardRouter;

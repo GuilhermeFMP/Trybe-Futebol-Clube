@@ -3,8 +3,8 @@ import LeaderboardService from '../services/LeaderboardService';
 import statusCode from '../utils/statusCode';
 
 class LeaderboardController {
-  public static async getAll(req: Request, res: Response): Promise<void | Response> {
-    const leaderboard = await LeaderboardService.getAll();
+  public static async getAllSort(req: Request, res: Response): Promise<void | Response> {
+    const leaderboard = await LeaderboardService.getAllSort();
     res.status(statusCode.oK).json(leaderboard);
   }
 }
