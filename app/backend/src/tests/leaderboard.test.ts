@@ -59,4 +59,25 @@ describe('Leaderboard Router', () => {
       expect(response.status).to.be.equal(200);
     })
   });
+
+  describe('GET /leaderboard/away', () => {
+    it('Deve retornar 200', async () => {
+      sinon.stub(Teams, 'findAll').resolves([{
+        "id": 1,
+        "teamName": "Avaí/Kindermann"
+      }] as Teams[]);
+      sinon.stub(Matches, 'findAll').resolves([{
+        "id": 1,
+        "homeTeamId": 8,
+        "homeTeamGoals": 5,
+        "awayTeamId": 1,
+        "awayTeamGoals": 1,
+        "inProgress": false,
+      }] as Matches[]);
+
+      const response = await chai.request(app).get('/leaderboard/');
+
+      expect(response.status).to.be.equal(200);
+    })
+  });
 });
