@@ -100,7 +100,7 @@ describe('Matches Router', () => {
     });
   });
 
-  describe('PATCH /matches/:id/finish', () => {
+  describe('PATCH /matches/:id', () => {
     it('deve retornar o status 200', async () => {
       sinon.stub(jwt, 'verifyToken').resolves({
         email: 'admin@admin.com',

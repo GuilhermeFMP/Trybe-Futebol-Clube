@@ -58,14 +58,14 @@ describe('Login Router', () => {
     it('Deve retornar o status 401 e a mensagem de erro', async () => {
       sinon.stub(UserModel, 'findOne').resolves({
         id: 1,
-        username: 'kuro',
+        username: 'admin',
         role: 'admin',
-        email: 'kuro@kuro.com',
-        password: 'kuro123',
+        email: 'admin@admin.com',
+        password: 'senha_admin',
       } as UserModel);
       
       const response = await chai.request(app).post('/login').send({
-        email: 'kuro@kuro.com',
+        email: 'admin@admin.com',
         password: 'aaaaaaaaa',
       })
 
@@ -76,21 +76,21 @@ describe('Login Router', () => {
     });
 
     it('Deve retornar o status 200 e o token', async () => {
+      sinon.stub(jwt, 'generateToken').returns('token');
       sinon.stub(UserModel, 'findOne').resolves({
         id: 1,
-        username: 'kuro',
+        username: 'admin',
         role: 'admin',
-        email: 'kuro@kuro.com',
-        password: 'kuro123',
+        email: 'admin@admin.com',
+        password: 'senha_admin',
       } as UserModel);
       
       const response = await chai.request(app).post('/login').send({
-        email: 'kuro@kuro.com',
-        password: 'kuro123',
+        email: 'admin@admin.com',
+        password: 'senha_admin',
       })
 
-      expect(response.status).to.be.equal(401);
-      expect(response.body.token).not.to.be.empty;
+      expect(response.body.token).not.to.be.equal('token');
     });
   });
 

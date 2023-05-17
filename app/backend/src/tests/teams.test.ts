@@ -36,6 +36,17 @@ describe('Teams Router', () => {
     });
   });
   describe('GET /teams/:id', () => {
+    it('Deve retornar 404 e a mensagem', async () => {
+      sinon.stub(Teams, 'findOne').resolves(undefined)
+
+      const response = await chai.request(app).get('/teams/111111');
+
+      expect(response.status).to.be.equal(404);
+      expect(response.body).to.be.deep.equal({
+        message: "Team not found!",
+      });
+    });
+
     it('Deve retornar o status 200 e o time', async () => {
       sinon.stub(Teams, 'findOne').resolves({
         id: 1,
