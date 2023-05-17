@@ -2,7 +2,7 @@ import { IMatch } from '../interfaces/IMatch';
 import MatchesService from './MatchesService';
 import TeamsService from './TeamsService';
 
-class LeaderboardService {
+class LeaderboardAwayService {
   public static async getAllSort() {
     const matches = await this.getAll();
     matches.sort((a, b) => {
@@ -24,7 +24,7 @@ class LeaderboardService {
     const teams = await TeamsService.getAll();
 
     return Promise.all(teams.map(async (team) => {
-      const matches = await MatchesService.getById(team.id);
+      const matches = await MatchesService.getAwayById(team.id);
       return {
         name: team.teamName,
         totalPoints: this.totalPoints(matches),
@@ -42,10 +42,10 @@ class LeaderboardService {
 
   private static totalPoints(matches: IMatch[]) {
     const results = matches.reduce((acc, el) => {
-      if (el.homeTeamGoals < el.awayTeamGoals) {
+      if (el.awayTeamGoals < el.homeTeamGoals) {
         return acc;
       }
-      if (el.homeTeamGoals > el.awayTeamGoals) {
+      if (el.awayTeamGoals > el.homeTeamGoals) {
         const points = acc + 3;
         return points;
       }
@@ -55,35 +55,35 @@ class LeaderboardService {
   }
 
   private static totalVictories(matches: IMatch[]) {
-    const results = matches.reduce((acc, el) => (el.homeTeamGoals > el.awayTeamGoals
+    const results = matches.reduce((acc, el) => (el.awayTeamGoals > el.homeTeamGoals
       ? acc + 1 : acc), 0);
     return results;
   }
 
   private static totalDraws(matches: IMatch[]) {
-    const results = matches.reduce((acc, el) => (el.homeTeamGoals === el.awayTeamGoals
+    const results = matches.reduce((acc, el) => (el.awayTeamGoals === el.homeTeamGoals
       ? acc + 1 : acc), 0);
     return results;
   }
 
   private static totalLosses(matches: IMatch[]) {
-    const results = matches.reduce((acc, el) => (el.homeTeamGoals < el.awayTeamGoals
+    const results = matches.reduce((acc, el) => (el.awayTeamGoals < el.homeTeamGoals
       ? acc + 1 : acc), 0);
     return results;
   }
 
   private static goalsFavor(matches: IMatch[]) {
-    const results = matches.reduce((acc, el) => acc + el.homeTeamGoals, 0);
-    return results;
-  }
-
-  private static goalsOwn(matches: IMatch[]) {
     const results = matches.reduce((acc, el) => acc + el.awayTeamGoals, 0);
     return results;
   }
 
+  private static goalsOwn(matches: IMatch[]) {
+    const results = matches.reduce((acc, el) => acc + el.homeTeamGoals, 0);
+    return results;
+  }
+
   private static goalsBalance(matches: IMatch[]) {
-    const results = matches.reduce((acc, el) => acc + (el.homeTeamGoals - el.awayTeamGoals), 0);
+    const results = matches.reduce((acc, el) => acc + (el.awayTeamGoals - el.homeTeamGoals), 0);
     return results;
   }
 
@@ -94,4 +94,4 @@ class LeaderboardService {
   }
 }
 
-export default LeaderboardService;
+export default LeaderboardAwayService;

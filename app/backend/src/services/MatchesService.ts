@@ -69,10 +69,30 @@ class MatchesService {
     return newMatch;
   }
 
-  public static async getById(id: number) {
+  public static async getHomeById(id: number) {
     const matches = await Matches.findAll({
       where: {
         homeTeamId: id,
+        inProgress: false,
+      },
+      include: [{
+        model: Teams,
+        as: 'homeTeam',
+        attributes: { exclude: ['id'] },
+      },
+      {
+        model: Teams,
+        as: 'awayTeam',
+        attributes: { exclude: ['id'] },
+      }],
+    });
+    return matches;
+  }
+
+  public static async getAwayById(id: number) {
+    const matches = await Matches.findAll({
+      where: {
+        awayTeamId: id,
         inProgress: false,
       },
       include: [{
