@@ -13,4 +13,9 @@ leaderboardRouter.get(
   (req, res) => LeaderboardController.getAllAwaySort(req, res),
 );
 
+leaderboardRouter.get(
+  '/',
+  (req, res) => LeaderboardController.getAll(req, res),
+);
+
 export default leaderboardRouter;
