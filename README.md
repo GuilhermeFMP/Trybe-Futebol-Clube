@@ -27,10 +27,7 @@ Instalação com NPM
 ## Autores
 
 - [@guilherme.kuro](https://github.com/GuilhermeFMP)
-- [@danielmorais1993](https://github.com/danielmorais1993)
-- [@viviannemelo](https://github.com/viviannemelo)
-- [@Aguiar-Doni](https://github.com/Aguiar-Doni)
-- [@alexSousa83](https://github.com/alexSousa83)
+
 ## Licença
 
 Arquivos como .trybe e trybe.yml
